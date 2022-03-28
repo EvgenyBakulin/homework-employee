@@ -10,7 +10,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.emploees = new Employee[10];
     }
 
-    public Employee add(String name, String surname) {
+    public Employee add(String name, String surname) throws FullMassivExeption{
         Employee empl = new Employee(name, surname);
        /*Придётся проводить проверку: не обязательно сотрудник будет добавлен в конец,
           может и на первое пустое место
@@ -37,7 +37,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return emploees[count];
     }
 
-    public Employee search(String name, String surname) {
+    public Employee search(String name, String surname) throws EmployeeNotFound{
         Employee empl = new Employee(name, surname);
         int count = -1;
         for (int i = 0; i < emploees.length; i++) {
@@ -52,7 +52,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     //Здесь добавим просто предыдущий метод, а исключение в нём уже есть
-    public Employee remove(String name, String surname) {
+    public Employee remove(String name, String surname) throws EmployeeNotFound{
         Employee empl = this.search(name, surname);
         for (int i = 0; i < emploees.length; i++) {
             if (emploees[i] != null && emploees[i].equals(empl)) {
