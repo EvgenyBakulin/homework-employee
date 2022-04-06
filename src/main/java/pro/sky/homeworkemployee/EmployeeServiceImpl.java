@@ -2,58 +2,45 @@ package pro.sky.homeworkemployee;
 
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Service
+/*Поскольку по условиям задачи не нужно никаких ID, сделаем и ключ и значение объектом Emplioyee
+* Возвращать везде будем ключ*/
 public class EmployeeServiceImpl implements EmployeeService {
-    private List<Employee> emploees;
+    private Map<Employee, Employee> emploees;
 
     EmployeeServiceImpl() {
-        this.emploees = new ArrayList<Employee>();
+        this.emploees = new HashMap<>();
     }
 
-    public List<Employee> getList() {
-        return emploees;
+    public Set<Employee> getMap() {
+        return emploees.keySet();
     }
 
     public Employee add(String name, String surname) throws EmployeeExistExeption {
+
         Employee empl = new Employee(name, surname);
-        if (!emploees.isEmpty()) {
-            for (Employee i : emploees) {
-                if (i.equals(empl)) {
-                    throw new EmployeeExistExeption();
-                }
-            }
+        try {
+            emploees.put(empl, empl);
+        } catch (EmployeeExistExeption e) {
         }
-        emploees.add(empl);
+        ;
         return empl;
     }
 
     public Employee search(String name, String surname) throws EmployeeNotFound {
         Employee empl = new Employee(name, surname);
-        int count = -1;
-        for (Employee i : emploees) {
-            if (i.equals(empl)) {
-                count = 0;
-            }
-        }
-        if (count == -1) {
+        if (emploees.get(empl) == null) {
             throw new EmployeeNotFound();
         }
         return empl;
     }
 
-    //Здесь добавим просто предыдущий метод, а исключение в нём уже есть
+    //Не хочу containsKey. Мне нравится так)
     public Employee remove(String name, String surname) throws EmployeeNotFound {
         Employee empl = this.search(name, surname);
-        Iterator iter = emploees.iterator();
-        while (iter.hasNext()) {
-            if (iter.next().equals(empl)) {
-                iter.remove();
-            }
-        }
+        emploees.remove(empl);
         return empl;
     }
 

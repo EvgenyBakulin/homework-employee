@@ -1,6 +1,8 @@
 package pro.sky.homeworkemployee;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public interface EmployeeService {
     Employee add(String name, String surname) throws EmployeeExistExeption;
@@ -9,6 +11,6 @@ public interface EmployeeService {
 
     Employee remove(String name, String surname) throws EmployeeNotFound;
 
-    List<Employee> getList();
+    Set<Employee> getMap();
 
 }

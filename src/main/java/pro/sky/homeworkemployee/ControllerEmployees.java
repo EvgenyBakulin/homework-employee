@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/employee")
@@ -22,11 +23,11 @@ public class ControllerEmployees {
     он же универсальный, может и пустой список возвращать, мало ли для чего. А делать специальный геттер с исключением,
     по-моему, тоже не очень*/
     @GetMapping("/get")
-    public List<Employee> getList() {
-        if (employeeService.getList().isEmpty()) {
+    public Set<Employee> getMap() {
+        if (employeeService.getMap().isEmpty()) {
             throw new ListIsEmptyExeption();
         } else {
-            return employeeService.getList();
+            return employeeService.getMap();
         }
     }
 
