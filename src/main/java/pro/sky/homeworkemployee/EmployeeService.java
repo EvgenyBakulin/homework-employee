@@ -1,5 +1,6 @@
 package pro.sky.homeworkemployee;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,6 +12,8 @@ public interface EmployeeService {
 
     Employee remove(String name, String surname) throws EmployeeNotFound;
 
-    Set<Employee> getMap();
+    Collection<Employee> getEmployees();
+
+    String createKey(String name, String surname);
 
 }

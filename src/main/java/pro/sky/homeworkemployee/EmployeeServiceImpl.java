@@ -6,32 +6,30 @@ import java.util.*;
 
 @Service
 /*Поскольку по условиям задачи не нужно никаких ID, сделаем и ключ и значение объектом Emplioyee
-* Возвращать везде будем ключ*/
+ * Возвращать везде будем ключ*/
 public class EmployeeServiceImpl implements EmployeeService {
-    private Map<Employee, Employee> emploees;
+    private final Map<String, Employee> emploees;
 
-    EmployeeServiceImpl() {
+    public EmployeeServiceImpl() {
         this.emploees = new HashMap<>();
     }
 
-    public Set<Employee> getMap() {
-        return emploees.keySet();
+    public Collection<Employee> getEmployees() {
+        return emploees.values();
     }
 
     public Employee add(String name, String surname) throws EmployeeExistExeption {
-
         Employee empl = new Employee(name, surname);
-        try {
-            emploees.put(empl, empl);
-        } catch (EmployeeExistExeption e) {
+        if (emploees.containsKey(createKey(name, surname))) {
+            throw new EmployeeExistExeption();
         }
-        ;
+        emploees.put(createKey(name, surname), empl);
         return empl;
     }
 
     public Employee search(String name, String surname) throws EmployeeNotFound {
         Employee empl = new Employee(name, surname);
-        if (emploees.get(empl) == null) {
+        if (emploees.get(createKey(name, surname)) == null) {
             throw new EmployeeNotFound();
         }
         return empl;
@@ -40,8 +38,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     //Не хочу containsKey. Мне нравится так)
     public Employee remove(String name, String surname) throws EmployeeNotFound {
         Employee empl = this.search(name, surname);
-        emploees.remove(empl);
+        emploees.remove(createKey(name, surname));
         return empl;
     }
 
+    public String createKey(String name, String surname) {
+        return name + surname;
+    }
 }

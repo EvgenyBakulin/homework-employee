@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -18,32 +19,25 @@ public class ControllerEmployees {
         this.employeeService = employeeService;
     }
 
-    /*Я понимаю, что логики в контроллере быть не должно, но добавить исключение хотелось,
-    не выводить же пустые скобки.Выбрасывать исключение в геттере, как я понимаю, неправильно,
-    он же универсальный, может и пустой список возвращать, мало ли для чего. А делать специальный геттер с исключением,
-    по-моему, тоже не очень*/
+    /*Исправил, теперь возвращает пустой список*/
     @GetMapping("/get")
-    public Set<Employee> getMap() {
-        if (employeeService.getMap().isEmpty()) {
-            throw new ListIsEmptyExeption();
-        } else {
-            return employeeService.getMap();
+    public Collection<Employee> getEmployees() {
+            return employeeService.getEmployees();
         }
-    }
 
     @GetMapping("/add")
-    public Employee addEmployee(@RequestParam(value = "name") String param1, @RequestParam(value = "surname") String param2) {
-        return employeeService.add(param1, param2);
+    public Employee addEmployee(@RequestParam(value = "name") String name, @RequestParam(value = "surname") String surname) {
+        return employeeService.add(name, surname);
     }
 
     @GetMapping("/find")
-    public Employee findEmployee(@RequestParam(value = "name") String param1, @RequestParam(value = "surname") String param2) {
-        return employeeService.search(param1, param2);
+    public Employee findEmployee(@RequestParam(value = "name") String name, @RequestParam(value = "surname") String surname) {
+        return employeeService.search(name, surname);
     }
 
     @GetMapping("/remove")
-    public String removeEmployee(@RequestParam(value = "name") String param1, @RequestParam(value = "surname") String param2) {
-        return "Данные сотрудника " + employeeService.remove(param1, param2).toString() + " успешно удалены";
+    public String removeEmployee(@RequestParam(value = "name") String name, @RequestParam(value = "surname") String surname) {
+        return "Данные сотрудника " + employeeService.remove(name, surname) + " успешно удалены";
     }
 
 }

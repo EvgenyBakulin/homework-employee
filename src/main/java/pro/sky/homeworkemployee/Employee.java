@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class Employee {
 
-    private String name;
-    private String surName;
+    private final String name;
+    private final String surName;
 
     public Employee(String name, String surName) {
         this.name = name;
