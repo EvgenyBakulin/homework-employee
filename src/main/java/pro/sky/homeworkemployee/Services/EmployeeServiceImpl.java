@@ -1,12 +1,14 @@
-package pro.sky.homeworkemployee;
+package pro.sky.homeworkemployee.Services;
 
 import org.springframework.stereotype.Service;
+import pro.sky.homeworkemployee.Employee;
+import pro.sky.homeworkemployee.Exeptions.EmployeeExistExeption;
+import pro.sky.homeworkemployee.Exeptions.EmployeeNotFound;
+import pro.sky.homeworkemployee.Interfaces.EmployeeService;
 
 import java.util.*;
 
 @Service
-/*Поскольку по условиям задачи не нужно никаких ID, сделаем и ключ и значение объектом Emplioyee
- * Возвращать везде будем ключ*/
 public class EmployeeServiceImpl implements EmployeeService {
     private final Map<String, Employee> emploees;
 
@@ -18,8 +20,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         return emploees.values();
     }
 
-    public Employee add(String name, String surname) throws EmployeeExistExeption {
-        Employee empl = new Employee(name, surname);
+    public Employee add(String name, String surname, int department, int salary) throws EmployeeExistExeption {
+        Employee empl = new Employee(name, surname,department, salary);
         if (emploees.containsKey(createKey(name, surname))) {
             throw new EmployeeExistExeption();
         }
@@ -28,19 +30,25 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public Employee search(String name, String surname) throws EmployeeNotFound {
-        Employee empl = new Employee(name, surname);
+        //Employee empl = new Employee(name, surname, department, salary);
         if (emploees.get(createKey(name, surname)) == null) {
             throw new EmployeeNotFound();
         }
-        return empl;
+        return emploees.get(createKey(name,surname));
     }
 
-    //Не хочу containsKey. Мне нравится так)
     public Employee remove(String name, String surname) throws EmployeeNotFound {
         Employee empl = this.search(name, surname);
         emploees.remove(createKey(name, surname));
         return empl;
     }
+
+    /*public List<Employee>getEmployeesInDepartment(int department) {
+        final List<Employee> employeesInDepartment = emploees.values().stream()
+                .filter(e->e.getDepartment()==department)
+                .collect(Collectors.toList());
+        return employeesInDepartment;
+    }*/
 
     public String createKey(String name, String surname) {
         return name + surname;
