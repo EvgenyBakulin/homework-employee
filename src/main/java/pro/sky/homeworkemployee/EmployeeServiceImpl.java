@@ -1,5 +1,6 @@
 package pro.sky.homeworkemployee;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -19,8 +20,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public Employee add(String name, String surname) throws EmployeeExistExeption {
+        if(!StringUtils.isAlphaSpace(name)||!StringUtils.isAlphaSpace(surname)){
+            throw new BadNameExeption();}
+        //Заодно сделаем проверку и на, допустим, нажатую клавишу CapsLock - все сначала в нижний регистр, потом заглавную
+        name = StringUtils.lowerCase(name);
+        name = StringUtils.capitalize(name);
+        surname = StringUtils.lowerCase(surname);
+        surname = StringUtils.capitalize(surname);
         Employee empl = new Employee(name, surname);
-        if (emploees.containsKey(createKey(name, surname))) {
+        if (emploees.containsKey(createKey(name,surname))) {
             throw new EmployeeExistExeption();
         }
         emploees.put(createKey(name, surname), empl);
@@ -28,6 +36,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public Employee search(String name, String surname) throws EmployeeNotFound {
+        name = StringUtils.lowerCase(name);
+        name = StringUtils.capitalize(name);
+        surname = StringUtils.lowerCase(surname);
+        surname = StringUtils.capitalize(surname);
         Employee empl = new Employee(name, surname);
         if (emploees.get(createKey(name, surname)) == null) {
             throw new EmployeeNotFound();
@@ -35,7 +47,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return empl;
     }
 
-    //Не хочу containsKey. Мне нравится так)
     public Employee remove(String name, String surname) throws EmployeeNotFound {
         Employee empl = this.search(name, surname);
         emploees.remove(createKey(name, surname));
