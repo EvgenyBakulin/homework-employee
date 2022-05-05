@@ -5,7 +5,7 @@ import pro.sky.homeworkemployee.Employee;
 import java.util.List;
 
 public interface DepartmentService {
-    List<Employee> getList();
+   // List<Employee> getList();
 
     List<Employee> getEmployeesInDepartment(int department);
 

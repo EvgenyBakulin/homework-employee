@@ -19,16 +19,16 @@ public class DepartmentServiceImpl implements DepartmentService {
         this.employeeList = new ArrayList<>();
     }
 
-    public List<Employee> getList() {
+    /*public List<Employee> getList() {
         return employeeService.getEmployees().stream().
                 collect(Collectors.toList());
-    }
+    }*/
 
     public List<Employee> getEmployeesInDepartment(int department) {
-        final List<Employee> employeesInDepartment = getList().stream()
+        final List<Employee> employeesInDepartment = employeeService.getEmployees().stream()
                 .filter(e -> e.getDepartment() == department)
                 .collect(Collectors.toList());
-        if (employeesInDepartment == null) {
+        if (employeesInDepartment.size()==0) {
             throw new WrongDepartmentExeption();
         } else {
             return employeesInDepartment;
@@ -39,7 +39,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      * требуется вывод сотрудников сначала условно первого отдела, потом второго и т.д? Некая такая сортировка по
      * номеру отдела?*/
     public List<Employee> getEmployeesToDepartments() {
-        List<Employee> toDepartments = getList();
+        List<Employee> toDepartments = employeeService.getEmployees();
         Collections.sort(toDepartments, Comparator.comparingInt(e -> e.getDepartment()));
         return toDepartments;
     }

@@ -16,8 +16,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.emploees = new HashMap<>();
     }
 
-    public Collection<Employee> getEmployees() {
-        return emploees.values();
+    public List<Employee> getEmployees() {
+        return new ArrayList<>(emploees.values());
     }
 
     public Employee add(String name, String surname, int department, int salary) throws EmployeeExistExeption {

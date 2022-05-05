@@ -22,12 +22,12 @@ public class ControllerEmployees {
     }
 
     @GetMapping("/get")
-    public Collection<Employee> getEmployees() {
+    public List<Employee> getEmployees() {
         return employeeService.getEmployees();
     }
 
     @GetMapping("/department/all")
-    public List<Employee> getEmployeesInDepartment(@RequestParam(value = "departmrntID") int department) {
+    public List<Employee> getEmployeesInDepartment(@RequestParam(value = "departmentID") int department) {
         return departmentService.getEmployeesInDepartment(department);
     }
 

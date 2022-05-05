@@ -5,6 +5,7 @@ import pro.sky.homeworkemployee.Exeptions.EmployeeExistExeption;
 import pro.sky.homeworkemployee.Exeptions.EmployeeNotFound;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface EmployeeService {
     Employee add(String name, String surname, int department, int salary) throws EmployeeExistExeption;
@@ -13,7 +14,7 @@ public interface EmployeeService {
 
     Employee remove(String name, String surname) throws EmployeeNotFound;
 
-    Collection<Employee> getEmployees();
+    List<Employee> getEmployees();
 
     String createKey(String name, String surname);
 
